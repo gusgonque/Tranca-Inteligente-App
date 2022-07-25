@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_formacao_empreendedora/Models/device.dart';
+import '../Controller/deviceController.dart';
 import 'index.dart';
 
 class RegistrationScreen extends StatelessWidget {
@@ -34,9 +35,9 @@ class DeviceRegistrationForm extends StatefulWidget {
 class DeviceRegistrationFormState extends State<DeviceRegistrationForm> {
   final _formKey = GlobalKey<FormState>();
   static const _errorMessage = 'Campo inválido.';
-  final myControllerName = TextEditingController();
-  final myControllerCode = TextEditingController();
-  final myControllerType = TextEditingController();
+  final nameController = TextEditingController();
+  final codeController = TextEditingController();
+  final typeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +52,7 @@ class DeviceRegistrationFormState extends State<DeviceRegistrationForm> {
                 border: OutlineInputBorder(),
                 labelText: 'Nome',
               ),
-              controller: myControllerName,
+              controller: nameController,
               // The validator receives the text that the user has entered.
               validator: (deviceName) {
                 if (deviceName == null || deviceName.isEmpty) {
@@ -68,7 +69,7 @@ class DeviceRegistrationFormState extends State<DeviceRegistrationForm> {
                 border: OutlineInputBorder(),
                 labelText: 'Código',
               ),
-              controller: myControllerCode,
+              controller: codeController,
               // The validator receives the text that the user has entered.
               validator: (deviceCode) {
                 if (deviceCode == null || deviceCode.isEmpty) {
@@ -85,7 +86,7 @@ class DeviceRegistrationFormState extends State<DeviceRegistrationForm> {
                 border: OutlineInputBorder(),
                 labelText: 'Tipo',
               ),
-              controller: myControllerType,
+              controller: typeController,
               // The validator receives the text that the user has entered.
               validator: (deviceType) {
                 if (deviceType == null || deviceType.isEmpty) {
@@ -105,11 +106,7 @@ class DeviceRegistrationFormState extends State<DeviceRegistrationForm> {
                   // final String deviceCode = myControllerCode.text;
                   // final String deviceType = myControllerType.text;
                   // const Device(name: deviceName,code: deviceCode,type: deviceType, id: 1);
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const IndexScreen(),
-                    ),
-                  );
+                  insertDevice(Device(id: 0, name: nameController.text, code: codeController.text, type: typeController.text));
                 }
               },
               child: const Text('Salvar'),
