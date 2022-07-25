@@ -27,6 +27,7 @@ class DeviceList extends StatelessWidget {
 
 void _activateDevice(BuildContext context, Device device){
   //todo: ativar dispositivo
+  //todo: /device/interaction/<deviceID> ou 1
 }
 
 class _FeatureItem extends StatelessWidget {
