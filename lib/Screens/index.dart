@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_formacao_empreendedora/Screens/deviceRegistration.dart';
 
 class IndexScreen extends StatelessWidget {
   const IndexScreen({Key? key}) : super(key: key);
@@ -32,8 +33,7 @@ class IndexColumnState extends State<IndexColumn> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: ListView(
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -41,7 +41,7 @@ class IndexColumnState extends State<IndexColumn> {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const IndexScreen(),
+                    builder: (context) => const RegistrationScreen(), // todo: tela de registro
                   ),
                 );
               },
