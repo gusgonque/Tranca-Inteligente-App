@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_formacao_empreendedora/main.dart';
+import '../Screens/deviceUpdate.dart';
 import 'device.dart';
 
 class DeviceList extends StatelessWidget {
@@ -14,10 +16,11 @@ class DeviceList extends StatelessWidget {
       ),
       itemCount: deviceList.length,
       itemBuilder: (context, index) {
-        return _FeatureItem(deviceList[index].name, deviceList[index].code,
+        return _FeatureItem(deviceList[index],
           onClick: () {
             _activateDevice(context, deviceList[index]);
           },
+
         );
       },
     );
@@ -31,11 +34,10 @@ void _activateDevice(BuildContext context, Device device){
 }
 
 class _FeatureItem extends StatelessWidget {
-  final String deviceName;
-  final String deviceCode;
+  final Device device;
   final Function onClick;
 
-  const _FeatureItem(this.deviceName, this.deviceCode, {required this.onClick});
+  const _FeatureItem(this.device, {required this.onClick});
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +47,8 @@ class _FeatureItem extends StatelessWidget {
         color: Theme.of(context).primaryColor,
         child: InkWell(
           onTap: () => onClick(),
+          onLongPress: () => goToPage(context,
+              UpdateScreen(key: key, id: device.id)),
           child: Container(
             padding: const EdgeInsets.all(16.0),
             height: 60,
@@ -53,14 +57,13 @@ class _FeatureItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                    deviceName,
+                Text(device.name,
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 40,
                       letterSpacing: 3.0,
                     )),
-                Text(deviceCode,
+                Text(device.code,
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 14,

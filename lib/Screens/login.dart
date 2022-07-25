@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../main.dart';
 import 'index.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -21,7 +21,6 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-// Create a Form widget.
 class UserLoginForm extends StatefulWidget {
   const UserLoginForm({Key? key}) : super(key: key);
 
@@ -52,7 +51,6 @@ class UserLoginFormState extends State<UserLoginForm> {
                 labelText: 'Email do Usuário',
               ),
               controller: myControllerMail,
-              // The validator receives the text that the user has entered.
               validator: (userMail) {
                 if (userMail == null || userMail.isEmpty) {
                   return _errorMessage;
@@ -70,7 +68,6 @@ class UserLoginFormState extends State<UserLoginForm> {
               ),
               controller: myControllerPassword,
               obscureText: true,
-              // The validator receives the text that the user has entered.
               validator: (userPassword) {
                 if (userPassword == null || userPassword.isEmpty) {
                   return _errorMessage;
@@ -83,13 +80,8 @@ class UserLoginFormState extends State<UserLoginForm> {
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: ElevatedButton(
               onPressed: () {
-                // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) { // todo: Validar Textos
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const IndexScreen(),
-                    ),
-                  );
+                  goToPage(context,IndexScreen(key: _formKey));
                 }
               },
               child: const Text('Entrar'),

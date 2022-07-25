@@ -47,5 +47,32 @@ Future<List<Device>> fetchDevice(http.Client client) async {
   );
 
   // Use the compute function to run parsePhotos in a separate isolate.
-  return compute(parseDevice, response.body;
+  return compute(parseDevice, response.body);
+}
+
+
+Future<Device> updateDevice(Device device) async {
+  final response = await http.put(
+    Uri.parse(baseURL + '/device/update/' + device.id.toString()),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'authorization':
+      'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1ODc1MTkzNSwiZXhwIjoxNjU5MzU2NzM1fQ.YDuh76gSUmsk_ldmwVo0SsfcU33tuzbl7edP4DNUuEc', //todo: token
+    },
+    body: jsonEncode(<String, dynamic>{
+      'name': device.name,
+      'code': device.code,
+      'type': device.type,
+    }),
+  );
+
+  if (response.statusCode == 201) {
+    // If the server did return a 201 CREATED response,
+    // then parse the JSON.
+    return Device.fromJson(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 201 CREATED response,
+    // then throw an exception.
+    throw Exception('Failed to update Device.');
+  }
 }
