@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_formacao_empreendedora/main.dart';
-import '../Screens/deviceUpdate.dart';
+import '../Controller/device_controller.dart';
+import '../Screens/device_update.dart';
 import 'device.dart';
 
 class DeviceList extends StatelessWidget {
@@ -18,7 +19,7 @@ class DeviceList extends StatelessWidget {
       itemBuilder: (context, index) {
         return _FeatureItem(deviceList[index],
           onClick: () {
-            _activateDevice(context, deviceList[index]);
+            activateDevice(context, deviceList[index]);
           },
 
         );
@@ -28,10 +29,6 @@ class DeviceList extends StatelessWidget {
 }
 
 
-void _activateDevice(BuildContext context, Device device){
-  //todo: ativar dispositivo
-  //todo: /device/interaction/<deviceID> ou 1
-}
 
 class _FeatureItem extends StatelessWidget {
   final Device device;
@@ -48,7 +45,7 @@ class _FeatureItem extends StatelessWidget {
         child: InkWell(
           onTap: () => onClick(),
           onLongPress: () => goToPage(context,
-              UpdateScreen(key: key, id: device.id)),
+              UpdateScreen(key: key, device: device)),
           child: Container(
             padding: const EdgeInsets.all(16.0),
             height: 60,

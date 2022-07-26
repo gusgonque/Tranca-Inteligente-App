@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:projeto_formacao_empreendedora/Models/device.dart';
 import 'package:projeto_formacao_empreendedora/Screens/index.dart';
 import 'package:projeto_formacao_empreendedora/main.dart';
-import '../Controller/deviceController.dart';
+import '../Controller/device_controller.dart';
 
-class RegistrationScreen extends StatelessWidget {
-  const RegistrationScreen({Key? key}) : super(key: key);
+class UpdateScreen extends StatelessWidget {
+  const UpdateScreen({Key? key, required this.device}) : super(key: key);
+  final Device device;
 
   @override
   Widget build(BuildContext context) {
-    const appTitle = 'Cadastro de dispositivo';
+    const appTitle = 'Alterando dispositivo';
 
     return MaterialApp(
       title: appTitle,
@@ -17,27 +18,26 @@ class RegistrationScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text(appTitle),
         ),
-        body: const DeviceRegistrationForm(),
+        body: DeviceUpdateForm(device: device),
       ),
     );
   }
 }
 
-class DeviceRegistrationForm extends StatefulWidget {
-  const DeviceRegistrationForm({Key? key}) : super(key: key);
+class DeviceUpdateForm extends StatefulWidget {
+  const DeviceUpdateForm({Key? key, required this.device}) : super(key: key);
+  final Device device;
 
   @override
-  DeviceRegistrationFormState createState() {
-    return DeviceRegistrationFormState();
-  }
+  DeviceUpdateFormState createState() => DeviceUpdateFormState();
 }
 
-class DeviceRegistrationFormState extends State<DeviceRegistrationForm> {
+class DeviceUpdateFormState extends State<DeviceUpdateForm> {
   final _formKey = GlobalKey<FormState>();
-  static const _errorMessage = 'Campo inválido.';
   final nameController = TextEditingController();
   final codeController = TextEditingController();
   final typeController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class DeviceRegistrationFormState extends State<DeviceRegistrationForm> {
               controller: nameController,
               validator: (deviceName) {
                 if (deviceName == null || deviceName.isEmpty) {
-                  return _errorMessage;
+                  nameController.text = widget.device.name;
                 }
                 return null;
               },
@@ -72,7 +72,7 @@ class DeviceRegistrationFormState extends State<DeviceRegistrationForm> {
               controller: codeController,
               validator: (deviceCode) {
                 if (deviceCode == null || deviceCode.isEmpty) {
-                  return _errorMessage;
+                  codeController.text = widget.device.code;
                 }
                 return null;
               },
@@ -88,7 +88,7 @@ class DeviceRegistrationFormState extends State<DeviceRegistrationForm> {
               controller: typeController,
               validator: (deviceType) {
                 if (deviceType == null || deviceType.isEmpty) {
-                  return _errorMessage;
+                  typeController.text = widget.device.type;
                 }
                 return null;
               },
@@ -99,11 +99,21 @@ class DeviceRegistrationFormState extends State<DeviceRegistrationForm> {
             child: ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) { // todo: Validar Textos
-                  insertDevice(Device(id: 0, name: nameController.text, code: codeController.text, type: typeController.text));
-                  goToPage(context, IndexScreen(key: _formKey));
+                  insertDevice(Device(id: widget.device.id, name: nameController.text, code: codeController.text, type: typeController.text));
+                  goToPage(context, const IndexScreen());// todo: Navigator.pop(context);
                 }
               },
               child: const Text('Salvar'),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: ElevatedButton(
+              onPressed: () {
+                removeDevice(widget.device);
+                goToPage(context, const IndexScreen());// todo: Navigator.pop(context);
+              },
+              child: const Text('Remover dispositivo'),
             ),
           ),
         ],

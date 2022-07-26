@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_formacao_empreendedora/Models/device.dart';
-import '../Controller/deviceController.dart';
+import '../Controller/device_controller.dart';
+import '../main.dart';
+import 'index.dart';
 
-class UpdateScreen extends StatelessWidget {
-  const UpdateScreen({Key? key}) : super(key: key);
+class RegistrationScreen extends StatelessWidget {
+  const RegistrationScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    const appTitle = 'Alterando dispositivo';
+    const appTitle = 'Cadastro de dispositivo';
 
     return MaterialApp(
       title: appTitle,
@@ -15,24 +17,24 @@ class UpdateScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text(appTitle),
         ),
-        body: const DeviceUpdateForm(),
+        body: const DeviceRegistrationForm(),
       ),
     );
   }
 }
 
-// Create a Form widget.
-class DeviceUpdateForm extends StatefulWidget {
-  const DeviceUpdateForm({Key? key}) : super(key: key);
+class DeviceRegistrationForm extends StatefulWidget {
+  const DeviceRegistrationForm({Key? key}) : super(key: key);
 
   @override
-  DeviceUpdateFormState createState() {
-    return DeviceUpdateFormState();
+  DeviceRegistrationFormState createState() {
+    return DeviceRegistrationFormState();
   }
 }
 
-class DeviceUpdateFormState extends State<DeviceUpdateForm> {
+class DeviceRegistrationFormState extends State<DeviceRegistrationForm> {
   final _formKey = GlobalKey<FormState>();
+  static const _errorMessage = 'Campo inválido.';
   final nameController = TextEditingController();
   final codeController = TextEditingController();
   final typeController = TextEditingController();
@@ -51,6 +53,12 @@ class DeviceUpdateFormState extends State<DeviceUpdateForm> {
                 labelText: 'Nome',
               ),
               controller: nameController,
+              validator: (deviceName) {
+                if (deviceName == null || deviceName.isEmpty) {
+                  return _errorMessage;
+                }
+                return null;
+              },
             ),
           ),
           Padding(
@@ -60,7 +68,14 @@ class DeviceUpdateFormState extends State<DeviceUpdateForm> {
                 border: OutlineInputBorder(),
                 labelText: 'Código',
               ),
+              keyboardType: TextInputType.number,
               controller: codeController,
+              validator: (deviceCode) {
+                if (deviceCode == null || deviceCode.isEmpty) {
+                  return _errorMessage;
+                }
+                return null;
+              },
             ),
           ),
           Padding(
@@ -71,17 +86,21 @@ class DeviceUpdateFormState extends State<DeviceUpdateForm> {
                 labelText: 'Tipo',
               ),
               controller: typeController,
+              validator: (deviceType) {
+                if (deviceType == null || deviceType.isEmpty) {
+                  return _errorMessage;
+                }
+                return null;
+              },
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: ElevatedButton(
               onPressed: () {
-                // Validate returns true if the form is valid, or false otherwise.
                 if (_formKey.currentState!.validate()) { // todo: Validar Textos
-                  updateDevice(
-                      Device(id: 0, name: nameController.text, code: codeController.text, type: typeController.text)
-                  );
+                  insertDevice(Device(id: 0, name: nameController.text, code: codeController.text, type: typeController.text));
+                  goToPage(context, IndexScreen(key: _formKey)); // todo: Navigator.pop(context);
                 }
               },
               child: const Text('Salvar'),
