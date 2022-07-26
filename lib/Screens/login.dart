@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_formacao_empreendedora/Controller/user_controller.dart';
+import 'package:projeto_formacao_empreendedora/Models/user.dart';
 import '../main.dart';
 import 'index.dart';
 
@@ -33,8 +35,8 @@ class UserLoginForm extends StatefulWidget {
 class UserLoginFormState extends State<UserLoginForm> {
   final _formKey = GlobalKey<FormState>();
   static const _errorMessage = 'Campo inválido.';
-  final myControllerMail = TextEditingController();
-  final myControllerPassword = TextEditingController();
+  final mailController = TextEditingController();
+  final passordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +52,7 @@ class UserLoginFormState extends State<UserLoginForm> {
                 border: OutlineInputBorder(),
                 labelText: 'Email do Usuário',
               ),
-              controller: myControllerMail,
+              controller: mailController,
               validator: (userMail) {
                 if (userMail == null || userMail.isEmpty) {
                   return _errorMessage;
@@ -66,7 +68,7 @@ class UserLoginFormState extends State<UserLoginForm> {
                 border: OutlineInputBorder(),
                 labelText: 'Senha do Usuário',
               ),
-              controller: myControllerPassword,
+              controller: passordController,
               obscureText: true,
               validator: (userPassword) {
                 if (userPassword == null || userPassword.isEmpty) {
@@ -79,9 +81,22 @@ class UserLoginFormState extends State<UserLoginForm> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: ElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) { // todo: Validar Textos
-                  goToPage(context,const IndexScreen());
+              onPressed: () async {
+                int test = await authUser(User(
+                    id: 0,
+                    email: mailController.text,
+                    password: passordController.text));
+                if (test == 1) {
+                  goToPage(context, const IndexScreen());
+                } else {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const AlertDialog(
+                          content: Text('Usuario inválido!'),
+                        );
+                      },
+                  );
                 }
               },
               child: const Text('Entrar'),

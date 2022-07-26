@@ -100,7 +100,7 @@ class DeviceRegistrationFormState extends State<DeviceRegistrationForm> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) { // todo: Validar Textos
                   insertDevice(Device(id: 0, name: nameController.text, code: codeController.text, type: typeController.text));
-                  goToPage(context, IndexScreen(key: _formKey)); // todo: Navigator.pop(context);
+                  goToPage(context, const IndexScreen()); // todo: Navigator.pop(context);
                 }
               },
               child: const Text('Salvar'),

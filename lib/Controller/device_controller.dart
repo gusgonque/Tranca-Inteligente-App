@@ -1,18 +1,19 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:projeto_formacao_empreendedora/Models/device.dart';
 
-const String baseURL = 'https://github.com/gusgonque/Minhas_Coisas';
+const String baseURL = 'http://179.106.204.95:3000';
 
 Future<Device> insertDevice(Device device) async {
   final response = await http.post(
     Uri.parse(baseURL + '/device/insert'),
     headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
       'authorization':
           'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1ODc1MTkzNSwiZXhwIjoxNjU5MzU2NzM1fQ.YDuh76gSUmsk_ldmwVo0SsfcU33tuzbl7edP4DNUuEc', //todo: token
+      'content-Type': 'application/json',
     },
     body: jsonEncode(<String, dynamic>{
       'name': device.name,
@@ -21,7 +22,7 @@ Future<Device> insertDevice(Device device) async {
     }),
   );
 
-  if (response.statusCode == 201) {
+  if (response.statusCode == 200) {
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
     return Device.fromJson(jsonDecode(response.body));
@@ -43,7 +44,7 @@ Future<List<Device>> fetchDevice(http.Client client) async {
     Uri.parse(baseURL + '/device/list'),
     headers: <String, String>{
       'authorization':
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1ODc1MTkzNSwiZXhwIjoxNjU5MzU2NzM1fQ.YDuh76gSUmsk_ldmwVo0SsfcU33tuzbl7edP4DNUuEc', //todo: token
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1ODc1MTkzNSwiZXhwIjoxNjU5MzU2NzM1fQ.YDuh76gSUmsk_ldmwVo0SsfcU33tuzbl7edP4DNUuEc', //todo: token
     },
   );
 
@@ -56,9 +57,9 @@ Future<Device> updateDevice(Device device) async {
   final response = await http.put(
     Uri.parse(baseURL + '/device/update/' + device.id.toString()),
     headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
       'authorization':
-      'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1ODc1MTkzNSwiZXhwIjoxNjU5MzU2NzM1fQ.YDuh76gSUmsk_ldmwVo0SsfcU33tuzbl7edP4DNUuEc', //todo: token
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1ODc1MTkzNSwiZXhwIjoxNjU5MzU2NzM1fQ.YDuh76gSUmsk_ldmwVo0SsfcU33tuzbl7edP4DNUuEc', //todo: token
+      'content-Type': 'application/json',
     },
     body: jsonEncode(<String, dynamic>{
       'name': device.name,
@@ -67,7 +68,7 @@ Future<Device> updateDevice(Device device) async {
     }),
   );
 
-  if (response.statusCode == 201) {
+  if (response.statusCode == 200) {
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
     return Device.fromJson(jsonDecode(response.body));
@@ -82,13 +83,12 @@ Future<Device> removeDevice(Device device) async {
   final response = await http.delete(
     Uri.parse(baseURL + '/device/delete/' + device.id.toString()),
     headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
       'authorization':
       'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1ODc1MTkzNSwiZXhwIjoxNjU5MzU2NzM1fQ.YDuh76gSUmsk_ldmwVo0SsfcU33tuzbl7edP4DNUuEc', //todo: token
     },
   );
 
-  if (response.statusCode == 201) {
+  if (response.statusCode == 200) {
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
     return Device.fromJson(jsonDecode(response.body));
@@ -100,18 +100,15 @@ Future<Device> removeDevice(Device device) async {
 }
 
 void activateDevice(context, Device device) async {
-  //todo: ativar dispositivo
-  //todo: /device/interaction/<deviceID> ou 1
-  final response = await http.delete(
+  final response = await http.get(
     Uri.parse(baseURL + '/device/interaction/' + device.id.toString()),
     headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
       'authorization':
       'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1ODc1MTkzNSwiZXhwIjoxNjU5MzU2NzM1fQ.YDuh76gSUmsk_ldmwVo0SsfcU33tuzbl7edP4DNUuEc', //todo: token
     },
   );
 
-  if (response.statusCode == 201) {
+  if (response.statusCode == 200) {
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
     showDialog(

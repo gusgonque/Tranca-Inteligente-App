@@ -53,8 +53,8 @@ class DeviceUpdateFormState extends State<DeviceUpdateForm> {
                 labelText: 'Nome',
               ),
               controller: nameController,
-              validator: (deviceName) {
-                if (deviceName == null || deviceName.isEmpty) {
+              validator: (deviceNameValidator) {
+                if (deviceNameValidator == null || deviceNameValidator.isEmpty) {
                   nameController.text = widget.device.name;
                 }
                 return null;
@@ -70,8 +70,8 @@ class DeviceUpdateFormState extends State<DeviceUpdateForm> {
               ),
               keyboardType: TextInputType.number,
               controller: codeController,
-              validator: (deviceCode) {
-                if (deviceCode == null || deviceCode.isEmpty) {
+              validator: (deviceCodeValidator) {
+                if (deviceCodeValidator == null || deviceCodeValidator.isEmpty) {
                   codeController.text = widget.device.code;
                 }
                 return null;
@@ -86,8 +86,8 @@ class DeviceUpdateFormState extends State<DeviceUpdateForm> {
                 labelText: 'Tipo',
               ),
               controller: typeController,
-              validator: (deviceType) {
-                if (deviceType == null || deviceType.isEmpty) {
+              validator: (deviceTypeValidator) {
+                if (deviceTypeValidator == null || deviceTypeValidator.isEmpty) {
                   typeController.text = widget.device.type;
                 }
                 return null;
@@ -99,7 +99,7 @@ class DeviceUpdateFormState extends State<DeviceUpdateForm> {
             child: ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) { // todo: Validar Textos
-                  insertDevice(Device(id: widget.device.id, name: nameController.text, code: codeController.text, type: typeController.text));
+                  updateDevice(Device(id: widget.device.id, name: nameController.text, code: codeController.text, type: typeController.text));
                   goToPage(context, const IndexScreen());// todo: Navigator.pop(context);
                 }
               },

@@ -13,8 +13,6 @@ class IndexScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String appTitle = 'Index';
-    const Device deviceTeste =
-        Device(id: 1, name: 'Teste', code: '123456', type: 'Tranca');
     return MaterialApp(
       title: appTitle,
       home: Scaffold(
@@ -33,34 +31,15 @@ class IndexScreen extends StatelessWidget {
                 child: const Text('Cadastrar novo dispositivo'),
               ),
             ),
-            InkWell(
-              onTap: () => activateDevice(context, deviceTeste),
-              onLongPress: () => goToPage(
-                  context, UpdateScreen(key: key, device: deviceTeste)),
-              child: Container(
-                padding: const EdgeInsets.all(16.0),
-                height: 60,
-                width: 110,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(deviceTeste.name,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 40,
-                          letterSpacing: 3.0,
-                        )),
-                    Text(deviceTeste.code,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                        )),
-                  ],
-                ),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: ElevatedButton(
+                onPressed: () {
+                  goToPage(context, IndexColumn(key: key,));
+                },
+                child: const Text('Lista de dispositivos'),
               ),
             ),
-            const IndexColumn(),
           ]),
         ),
       ),
@@ -74,6 +53,9 @@ class IndexColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Lista de Dispositivos'),
+      ),
       body: FutureBuilder<List<Device>>(
         future: fetchDevice(http.Client()),
         builder: (context, snapshot) {

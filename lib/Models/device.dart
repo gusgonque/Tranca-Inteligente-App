@@ -15,8 +15,8 @@ class Device {
     return Device(
       id: json['id'] as int,
       name: json['name'] as String,
-      code: json['code'] as String,
-      type: json['type'] as String,
+      code: json['code'].toString(),
+      type: ' ',
     );
   }
 }
