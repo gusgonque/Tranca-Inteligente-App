@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:projeto_formacao_empreendedora/Models/device.dart';
 
 import '../Models/user.dart';
 

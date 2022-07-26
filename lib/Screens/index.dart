@@ -5,7 +5,6 @@ import 'package:projeto_formacao_empreendedora/Screens/device_registration.dart'
 import 'package:http/http.dart' as http;
 import '../Models/device.dart';
 import '../main.dart';
-import 'device_update.dart';
 
 class IndexScreen extends StatelessWidget {
   const IndexScreen({Key? key}) : super(key: key);
